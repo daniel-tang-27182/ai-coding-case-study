@@ -1,3 +1,13 @@
+# Executive Summary
+
+I reimplemented the same ~800 line Python Puzzle Evaluator program more than 10 times across three AI assisted coding approaches, measuring active developer time and qualitative experience for each.
+
+- **Agent Driven (7h 0m):** An agent drove the full implementation from an open-ended prompt. It felt productive in the moment, but the hidden costs added up: reviewing and correcting the agent's output was taxing ("it is harder to read code than to write it"), and I had to context switch often while waiting for the agent to complete tasks. That said, this approach shines for prototyping and working in unfamiliar domains.
+- **Agent Driven w/ Test Suite (2h 41m):** With the addition of a test suite, Antigravity completed the entire implementation in just 33 minutes with minimal intervention. But that test suite took 2+ hours to create even with a reference implementation to start from — a shortcut most real world projects won't have. And even with clear specifications, agents can still go off course. Claude Code burned a ton of tokens to create some very impressive algorithms, but lacked the sense to know when a simple solution was the right one.
+- **Human Driven (2h 27m):** I designed the architecture and handed off small, well scoped modules to the agent. With each task kept small and constrained, there was almost no review overhead and I never had to correct a bad architectural decision. It felt like a supercharged version of the way I used to program. That said, unlike the agentic approaches, it demands your full attention throughout.
+
+The approach I thought might be antiquated in 2026 turned out to be the most effective. For experienced developers, staying in the driver's seat can still be the most efficient way to work. The hype around fully agentic coding significantly understates the cost of reviewing what agents produce. That said, each approach has its place, and the best choice depends heavily on your domain, your experience, and what you're building.
+
 # Introduction
 
 AI assisted coding has irrevocably changed the way we code today. However, there is a wide spectrum of approaches. Some developers embrace fully hands off agentic workflows, while others prefer to offload only small implementation details to AI or only use LLMs as a smarter Stack Overflow. There is commercially driven hype around agentic AI on one end and unwarranted skepticism grounded in fear and ego on the other.  
