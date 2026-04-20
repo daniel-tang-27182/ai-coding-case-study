@@ -10,12 +10,13 @@ I was surprised that the **Human Driven** approach was the fastest, even in 2026
 
 # Introduction
 
-AI assisted coding has irrevocably changed the way we code today. However, there is a wide spectrum of approaches. Some developers embrace fully hands off agentic workflows, while others prefer to offload only small implementation details to AI or only use LLMs as a smarter Stack Overflow. There is commercially driven hype around agentic AI on one end and unwarranted skepticism grounded in fear and ego on the other.  
+AI assisted coding has irrevocably changed the way we code today, but there is a wide spectrum of approaches, ranging from fully hands-off agentic workflows to using LLMs only as a smarter Stack Overflow. There is commercially driven hype around agentic AI on one side and unwarranted skepticism grounded in fear and ego on the other.
 
-As a developer, I wanted to objectively understand the effectiveness of different AI assisted coding approaches for myself, but I had not seen any truly apples-to-apples comparisons in the online discourse. Because developers work with different tech stacks and different business domains, a fully agentic workflow that works well for a React developer can completely fall apart for a C developer working on embedded systems. So for science, I wrote a benchmark program more than 10 times using different AI coding approaches to compare them head to head.
+As a developer, I wanted to objectively understand the effectiveness of these different approaches, but I hadn't seen any truly apples-to-apples comparisons in the online discourse. Because developers work with different tech stacks and domains, a fully agentic workflow that works well for a frontend React developer can completely fall apart for an embedded C developer. So I ran my own experiment and reimplemented a benchmark program more than 10 times across different AI coding approaches to compare them head to head.
 
 # Benchmark Program (Zebra Puzzle Evaluator)
-In a past side project, I developed a program that evaluates LLM logical reasoning capability by procedurally generating Zebra-style (or Einstein's riddle) constraint-satisfaction puzzles of varying difficulty and evaluating model responses against a ground truth solution. 
+
+In a past side project, I developed a small CLI application (~800 lines of Python) that evaluates LLM logical reasoning capability by procedurally generating Zebra-style constraint satisfaction puzzles of varying difficulty and evaluating model responses against a ground truth solution. I chose it as the benchmark because it is complex enough to present non-trivial engineering challenges, but constrained enough to implement fully in a single session.
 
 Here is an example of a simple 3-person, 2-attribute Zebra puzzle:
 
@@ -30,8 +31,6 @@ Here is an example of a simple 3-person, 2-attribute Zebra puzzle:
 > 2. The person who drinks tea lives in the blue house.
 > 3. Bob does not live in the red house.
 > 4. Charlie lives in the green house.
-
-The benchmark program is a small, but non trivial CLI application written in ~800 lines of Python code.
 
 ### High Level Requirements
 
@@ -73,7 +72,7 @@ The benchmark program consists of three components:
 
 # Methodology
 
-To objectively compare AI-assisted coding paradigms, I reimplemented the Zebra Puzzle Evaluator with 3 different approaches, ensuring each implementation met the exact functional and nonfunctional requirements of the original program. The approaches are:
+I reimplemented the Zebra Puzzle Evaluator with 3 different approaches, ensuring each implementation met the exact functional and nonfunctional requirements of the original program. The approaches are:
 
 1. **Agent Driven:** Provide basic requirements, let the agent ask clarifying questions and generate a solution, then review and revise.
 2. **Agent Driven w/ Test Suite:** Provide basic requirements alongside a comprehensive test suite to guide the agent's autonomous iteration.
