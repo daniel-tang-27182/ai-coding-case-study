@@ -88,13 +88,17 @@ Because all three approaches produced the same end result, I could evaluate them
 
 ## Approach #1: Agent Driven Implementations
 
+```
+Prompt → Clarifying Q&A → Agent implements → Human reviews → Agent revises → Repeat until complete
+```
+
 This approach mirrors how I would naturally work with an AI agent on a new project. I start with only a general idea of what I want to build, with no detailed requirements and no test suite. I gave each agent a deliberately open-ended prompt:
 
 > I would like to write a python program to generate a set of logic puzzles along with their solutions, send them to llms via open router, and then compare the llm generated solutions to the actual solutions. These are not complete requirements. Please ask me all the clarifying questions that you need.
 
-From there, I go back and forth with the agent, providing as little explicit instruction as possible to see if it has good intuition about higher-level architecture. To keep the comparison fair, I steer the agent toward the same functionality as my original implementation, but I let it decide how to get there.
+From there, the agent leads with clarifying questions to nail down requirements, then drives the implementation. I provide as little explicit instruction as possible to see if it has good intuition about higher-level architecture, while steering it toward the same functionality as my original implementation.
 
-I don't stop until the code meets all functional and nonfunctional requirements. I allow the agent to run its own tests and self correct, but I don't rely on those tests as a verification standard. I primarily verify correctness by manually running the program and validating its input and output behavior. For logic that is difficult to test this way, like CSP based puzzle uniqueness validation, I review the code in detail. I deliberately avoided creating a test suite during this process, since I wanted to evaluate agent performance without one (that experiment comes in Approach #2).
+I vaildate the agent's implementation as it presents them. The agent runs its own tests and self corrects, but these are not comprehensive. I verify correctness by manually running the program and validating its input and output behavior. For logic that is difficult to test this way, like CSP based puzzle uniqueness validation, I review the code in detail. When the code does not meet the requirements, I prompt the agent to revise the implementation, but I try to let it decide the how as much as possible. I repeat this process until the code meets all functional and nonfunctional requirements. I deliberately avoided creating a test suite during this process, since I wanted to evaluate agent performance without one (that experiment comes in Approach #2).
 
 To evaluate this approach, I ran it with five agents: Anti Gravity (w/Gemini 3 Pro), Copilot, Cursor, Cline, and Claude Code (all w/Claude Sonnet 4.5). The discussion below focuses on Claude Code, which was the best performer of the five and serves as the representative for this approach. A full breakdown of all five agents is in [[TODO]].
 
@@ -117,7 +121,7 @@ These issues are all easy to get the agent to fix, but they underscore the need 
 
 Where the agent struggled most was running iterative experiments to solve a novel problem. The puzzle generator needed to produce 20x20 puzzles in under 10 seconds, and the agent's initial implementation was too slow. I prompted it to speed up the implementation and it proposed reasonable optimizations, but it couldn't effectively experimentally validate it's proposals. Its implementation was already too slow to benchmark, yet it repeatedly tried to sample runtimes without placing timeouts on its runs, getting stuck indefinitely on the very problem it was trying to solve. I had to explicitly instruct it to add timeouts and use smaller puzzle sizes. 
 
-The agent was also drawn to overengineered solutions. It tried to replace the CSP solver with custom uniqueness checking code. While technically impressive, this is quite complex and involves reimplementing the much of the CSP solver's core logic from scratch. A much simpler heuristic to initialize a large batch of clues before calling the CSP solver would be sufficient, which is what I explicitly instructed the agent to use.
+The agent was also drawn to overengineered solutions. It tried to replace the CSP solver with custom uniqueness checking code. While technically impressive, this is quite complex and involves reimplementing much of the CSP solver's core logic from scratch. A much simpler heuristic to initialize a large batch of clues before calling the CSP solver would be sufficient, which is what I explicitly instructed the agent to use.
 
 ### Time & Effort
 **Total Time Taken:** 7h 0m
@@ -130,6 +134,10 @@ Furthermore, the approach required a highly fragmented workflow. Whenever the ag
 
 
 ## Approach #2: Agent Driven w/ Test Suite 
+
+```
+Create test suite → Agent implements & self-test → Human verifies
+```
 
 This approach explores the maximal autonomous capabilities of AI coding assistants by providing them with a strict, executable functional specification in the form of a test suite. While many developers are already comfortable letting agents like Claude Code operate autonomously without such guardrails, it is very difficult to objectively evaluate their output in that manner. Using a test suite forces the agent to produce a working implementation that is comparable to the other approaches. Furthermore, Anthropic's recent success building a C compiler with autonomous agents demonstrated that a test suite is often the critical enabler for this kind of work.
 
@@ -149,7 +157,7 @@ I set the agents to work as autonomously as possible. I granted them maximally p
 #### Antigravity (w/Gemini 3.1 Pro)
 **Time Taken:** 33 minutes
 
-Given the initial prompt and test suite, Antigravity completed the entire implementation in just 33 minutes. It autonomously iterated without any human intervention until every test passed and it intuited all of the functional and non-functional requirements without needing to ask me clarifying questions. The test suite's 15 second timeout also enabled Antigravity to fullfill the puzzle generation performance requirement without getting stuck like it did in Approach #1. The only minor flaw with its initial implementation was using placeholder strings like "Attribute_0" and "Value_0", which it quickly fixed when prompted.
+Given the initial prompt and test suite, Antigravity completed the entire implementation in just 33 minutes. It autonomously iterated without any human intervention until every test passed and it intuited all of the functional and non-functional requirements without needing to ask me clarifying questions. The test suite's 15 second timeout also enabled Antigravity to fullfill the puzzle generation performance requirement without getting stuck like Calude Code did in Approach #1. The only minor flaw with its initial implementation was using placeholder strings like "Attribute_0" and "Value_0", which it quickly fixed when prompted.
 
 #### Claude Code (w/Claude Sonnet 4.6)
 **Time Taken:** 2 hours 16 minutes
@@ -163,12 +171,15 @@ In contrast, Antigravity used a much simpler heuristic for the same requirement:
 
 Using Antigravity as the exemplar, the raw speed and autonomy of the implementation phase is incredible. It was more than 10x faster than the plain agent driven approach. If agents can reliably implement programs this way, it really would be possible for a single experience software developer to orchestrate a team of agents operating in parallel. 
 
-However, the total time jumps significantly once you factor in test suite generation, and my approach was a shortcut since I already had a baseline implementation to work from. Most real-world projects won't have that luxury, and writing a comprehensive test suite from scratch before any implementation exists is a significant challenge. My intuition as a coder is that interactively exploring a problem space via coding is going to faster than trying to comprehensively nail down a specification beforehand.
+However, the total time jumps significantly once you factor in test suite generation, and my approach was a shortcut since I already had a baseline implementation to work from. Most real-world projects won't have that luxury, and writing a comprehensive test suite from scratch before any implementation exists is a significant challenge. My intuition as a coder is that interactively exploring a problem space via coding is going to be faster than trying to comprehensively nail down a specification beforehand.
 
 Finally, Claude Code's over engineering of the clue distribution requirement shows that agents can still easily go off course even with a comprehensive functional specification. I suspect an agent's ability to autonomously iterate is highly dependent on the specific problem domain and its training data. So while this test driven approach shows tremendous potential, it isn't quite there yet.
 
 ## Approach #3: Human Driven Implementation
 
+```
+Human designs architecture & splits out modules → Agent implements module → Human reviews & integrates
+```
 In this approach, the human maintains the mental picture of how the program should be structured and hands off only small, well-scoped modules to the AI coding assistant. I used Claude Code (w/Claude Sonnet 4.6), since it was the best performer from Approach #1. This is the approach I take by default, though I was starting to wonder if it was antiquated in 2026. For the Zebra Puzzle Evaluator, examples of individual offloaded tasks include:
 
 - Translating puzzle clues into CSP constraints
@@ -215,7 +226,7 @@ The benchmark program itself is fairly simple and niche. It does not represent t
 
 The most surprising result of this case study is that the human-driven approach was the fastest. The old software engineering adage that "it is harder to read code than to write it" is just as relevant as ever. Reviewing agent-generated code and working with it to get it correct took roughly three times longer than designing the architecture myself and handing off targeted modules. For an experienced developer, using an agent as a targeted implementation tool can still be the most efficient and engaging way to work. That said, I suspect the fastest approach varies significantly by problem domain and tech stack.
 
-The test-suite driven approach showed a lot of potential. With good documentation and a comprehensive test suite, the agent achieved a level of autonomy can truly enable a single engineer to supervise multiple agents working in parallel. However, this requires an environment that rarely exists in reality. In my ten years of experience as a software engineer across FAANG and smaller tech companies, specs are usually out of date before the ink dries and scattered across tickets and wikis. Even when management enforces high code coverage, the teams tend to create performative tests rather than a comprehensive suite. Teams could certainly invest in maintaining up-to-date specs and tests to make this approach work, but it would require a significant shift from how most software is built.
+The test-suite driven approach showed a lot of potential. With good documentation and a comprehensive test suite, the agent achieved a level of autonomy that can truly enable a single engineer to supervise multiple agents working in parallel. However, this requires an environment that rarely exists in reality. In my ten years of experience as a software engineer across FAANG and smaller tech companies, specs are usually out of date before the ink dries and scattered across tickets and wikis. Even when management enforces high code coverage, the teams tend to create performative tests rather than a comprehensive suite. Teams could certainly invest in maintaining up-to-date specs and tests to make this approach work, but it would require a significant shift from how most software is built.
 
 Even fully open-ended "vibe coding" has its place. For problem areas where the developer lacks domain knowledge, having an agent generate a first draft is a useful way to learn the landscape quickly, and it is game changing for creating proof of concepts. However, the common pitfalls of vibe coding are still very real. Without an experienced developer verifying the output, you risk encountering security, performance, maintainability, and architectural issues in production.
 
