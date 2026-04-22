@@ -7,10 +7,10 @@ This document compares five AI coding agents head-to-head, all using the same **
 | Rank | Agent | Time | Key Strength | Key Weakness |
 |:---|:---|:---|:---|:---|
 | #1 | Claude Code (w/Sonnet 4.5) | 7h 0m | Best first-shot code quality, idiomatic Python | Expensive; CLI-first UI quirks |
-| #2 | Anti Gravity (w/Gemini 3 Pro) | 7h 29m | Strong planning UI, web documentation access | Minor first-pass code quality flaws |
+| #2 | Anti Gravity (w/Gemini 3 Pro) | 7h 29m | Strong planning UI, reads any webpage via full browser rendering | Minor first-pass code quality flaws |
 | #3 | Cursor (w/Sonnet 4.5) | 6h 10m | Most polished UI, fastest time | Less Pythonic, tends to overcomplicate logic |
-| #4 | Cline (w/Sonnet 4.5) | 7h 14m | Open source, highly configurable | Poor UI feedback, unrefined UX |
-| #5 | Copilot (w/Sonnet 4.5) | 7h 36m | Strong agent instruction generation | Worst code quality, disruptive workflow |
+| #4 | Cline (w/Sonnet 4.5) | 7h 14m | Open source, highly configurable | No processing feedback, cumbersome setup |
+| #5 | Copilot (w/Sonnet 4.5) | 7h 36m | None notable | Generates functionally incorrect code, rigid UX |
 
 *Ranking is by overall code quality and reliability, not by time.*
 
@@ -61,7 +61,7 @@ The agent has a strong organizational UI that automatically manages implementati
 Cursor is 3rd in code quality generation, but it is much better than Copilot and the quality is good enough that I would trust it to generate code without extensive human review. It does have overall the most polished UI of all the AI IDEs I tested and I found it enjoyable to use.
 
 **Raw Coding & Problem Solving:**
-Cursor's code is generally trustworthy but not as clean as Claude Code's. It defaults to class-based structures, leaves unused variables, and uses non-idiomatic patterns like `while` loops with indexes. Solutions tend to be overcomplicated and required explicit prompts to simplify. It also occasionally chose poor approaches, such as a brute-force clue generation method that did not guarantee unique puzzle solutions.
+Cursor's code is generally trustworthy but not as clean as Claude Code's. It defaults to class-based structures, leaves unused variables, and uses non-idiomatic patterns like `while` loops with indexes. Solutions tend to be overcomplicated and required explicit prompts to simplify. It also occasionally chose poor architecture, such as a brute-force clue generation method that did not guarantee unique puzzle solutions.
 
 **Interface & Workflow:**
 Cursor boasts highly polished UI features that make the AI workflow fluid and enjoyable. It excels at managing context, maintaining full conversation histories better than most competitors, and seamlessly accepting terminal text via simple UI clicks. The interface also supports intuitive multi-file review and smoothly handles being interrupted with new suggestions mid-task. However, I did encounter a significant UI bug. Clicking the "undo" button occasionally deleted the entire file.
