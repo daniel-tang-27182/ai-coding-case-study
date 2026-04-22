@@ -23,6 +23,7 @@ AI assisted coding has irrevocably changed the way we code today, but there is a
 As a developer, I wanted to objectively understand the effectiveness of these different approaches, but I hadn't seen any truly apples-to-apples comparisons in the online discourse. Because developers work with different tech stacks and domains, a fully agentic workflow that works well for a frontend React developer can completely fall apart for an embedded C developer. So I ran my own experiment and reimplemented a benchmark program more than 10 times across different AI coding approaches to compare them head to head.
 
 # Benchmark Program (Zebra Puzzle Evaluator)
+*[Source code](reference-impl/)*
 
 In a past side project, I developed a small CLI application (~800 lines of Python) that evaluates LLM logical reasoning capability by procedurally generating Zebra-style constraint satisfaction puzzles of varying difficulty and evaluating model responses against a ground truth solution. I chose it as the benchmark because it is complex enough to present non-trivial engineering challenges, but constrained enough to implement fully in a single session.
 
@@ -97,6 +98,7 @@ Because all three approaches produced the same end result, I could evaluate them
 # Results by Approach
 
 ## Approach #1: Agent Driven Implementations
+*[Source code](agent-driven/)*
 
 ```
 Prompt → Clarifying Q&A → Agent implements → Human reviews → Agent revises → Repeat until complete
@@ -143,7 +145,8 @@ However, it still took 7 hours of active human effort to reach a working impleme
 Furthermore, the approach required a highly fragmented workflow. Whenever the agent needed more than five minutes to complete a task, I would switch to something else to avoid dead time. I had to do this over 15 times throughout the project, which made it difficult to maintain momentum. While having an autonomous AI partner felt productive in the moment, the heavy burden of code review drove up the active human effort, while the frequent context switching created a significant hidden mental tax.
 
 
-## Approach #2: Agent Driven w/ Test Suite 
+## Approach #2: Agent Driven w/ Test Suite
+*[Source code](agent-driven-w-tests/)*
 
 ```
 Create test suite → Agent implements & self-test → Human verifies
@@ -186,6 +189,7 @@ However, the total time jumps significantly once you factor in test suite genera
 Finally, Claude Code's over engineering of the clue distribution requirement shows that agents can still easily go off course even with a comprehensive functional specification. I suspect an agent's ability to autonomously iterate is highly dependent on the specific problem domain and its training data. So while this test driven approach shows tremendous potential, it isn't quite there yet.
 
 ## Approach #3: Human Driven Implementation
+*[Source code](human-driven/)*
 
 ```
 Human designs architecture & splits out modules → Agent implements module → Human reviews & integrates
