@@ -10,7 +10,7 @@ This document compares five AI coding agents head-to-head, all using the same **
 | #2 | Anti Gravity (w/Gemini 3 Pro) | 7h 29m | Strong planning UI, reads any webpage via full browser rendering | Minor first-pass code quality flaws |
 | #3 | Cursor (w/Sonnet 4.5) | 6h 10m | Most polished UI, fastest time | Less Pythonic, tends to overcomplicate logic |
 | #4 | Cline (w/Sonnet 4.5) | 7h 14m | Open source, highly configurable | No processing feedback, cumbersome setup |
-| #5 | Copilot (w/Sonnet 4.5) | 7h 36m | None notable | Generates functionally incorrect code, rigid UX |
+| #5 | Copilot (w/Sonnet 4.5) | 7h 36m | None notable | Only agent to generate functionally incorrect code |
 
 *Ranking is by overall code quality and reliability, not by time.*
 
