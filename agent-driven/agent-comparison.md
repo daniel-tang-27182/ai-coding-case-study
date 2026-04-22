@@ -14,6 +14,8 @@ This document compares five AI coding agents head-to-head, all using the same **
 
 *Ranking is by overall code quality and reliability, not by time.*
 
+One notable finding: Claude Code, Cursor, Cline, and Copilot all used the same underlying model (Claude Sonnet 4.5), yet produced significantly different results. Claude Code was the clear standout, Cursor and Cline were in the middle, and Copilot was dramatically worse. This suggests that beyond the underlying model, the agent harness — how the agent manages context, plans, executes, and self-corrects — plays a significant role in overall effectiveness.
+
 ---
 
 ### Common Observations Across Agents
@@ -34,7 +36,7 @@ Claude Code produces the best code overall on the first shot, but it is also the
 Claude Code stands out with its natural use of Pythonic, procedural coding styles, entirely avoiding unnecessary class structures without needing explicit prompting. It exhibits high autonomy and trustworthiness, eagerly running the program to iteratively verify its own fixes, and reliably handling minor refactors independently. Furthermore, it demonstrated strong algorithmic creativity by devising a deterministic method for generating uniquely solvable clue sets—an approach I had considered but abandoned. However, this creativity sometimes worked against it. It tried to replace the CSP solver with custom uniqueness checking code — technically impressive, but far more complex than necessary. A simple heuristic to initialize a large batch of clues before calling the solver would have been sufficient, which is what I had to explicitly instruct it to use. The only other minor drawback was its occasional use of strings and regex to manage clue attributes rather than proper data structures.
 
 **Interface & Workflow:**
-Claude Code's workflow operates smoothly alongside human interventions, allowing users to interrupt operations without the agent losing tracking of its context. Because of its CLI roots, the VSCode extension is missing some polish. The transition indicator between planning and implementation modes can feel unclear, and the chat interface fails to anchor visually to the beginning of lengthy generated plans. It also currently lacks a built-in checkpoint rollback feature. Although Git serves as an adequate workaround. Finally, its high quality comes at a price. I exhaunsted the Claude Pro plan token limit in just three days of coding.
+Claude Code's workflow operates smoothly alongside human interventions, allowing users to interrupt operations without the agent losing tracking of its context. Because of its CLI roots, the VSCode extension is missing some polish. The transition indicator between planning and implementation modes can feel unclear, and the chat interface fails to anchor visually to the beginning of lengthy generated plans. It also currently lacks a built-in checkpoint rollback feature. Although Git serves as an adequate workaround. Finally, its high quality comes at a price. I exhausted the Claude Pro plan token limit in just three days of coding.
 
 ---
 
