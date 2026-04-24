@@ -2,3 +2,6 @@
 **/.venv/
 **/logs/
 **/results/
+.DS_Store
+.obsidian/
+ai_ide_exploration.txt
