@@ -1,6 +1,6 @@
 # Executive Summary
 
-I reimplemented the same ~800 line Python Puzzle Evaluator program more than 10 times across three AI assisted coding approaches, measuring active developer time and qualitative experience for each.
+In March 2026, I reimplemented the same ~800 line Python Puzzle Evaluator program more than 9 times across three AI assisted coding approaches, measuring active developer time and qualitative experience for each.
 
 | Approach | Time | Key Tradeoff |
 |:---|:---|:---|
@@ -14,7 +14,7 @@ I reimplemented the same ~800 line Python Puzzle Evaluator program more than 10 
 
 **Human Driven:** I designed the architecture and handed off small, well scoped modules to the agent. With each task kept small and constrained, there was almost no review overhead and I never had to correct a bad architectural decision. The agent's speed also lowered the cost of experimentation, letting me try multiple approaches and refine the design as I went. That said, unlike the agentic approaches, it demands your full attention throughout.
 
-I was surprised that the **Human Driven** approach was the fastest, even in March 2026. However, every approach has its place. Agentic vibe coding has a clear role in prototyping and exploration, but still carries huge risks in production without human oversight. A test suite changes that equation by replacing the human review bottleneck with an automated one, but it requires a shift in process for most development teams. For now, an experienced developer augmented by AI remains more powerful than either one working alone.
+I was surprised that the **Human Driven** approach was the fastest. However, every approach has its place. Agentic vibe coding has a clear role in prototyping and exploration, but still carries huge risks in production without human oversight. A test suite changes that equation by replacing the human review bottleneck with an automated one, but it requires a shift in process for most development teams. For now, an experienced developer augmented by AI remains more powerful than either one working alone.
 
 # Introduction
 
