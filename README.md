@@ -91,7 +91,7 @@ I reimplemented the Zebra Puzzle Evaluator with 3 different approaches, ensuring
 
 Because all three approaches produced the same end result, I could evaluate them along two axes:
 
-**Quantitative (Time):** I tracked active developer time—prompting, reviewing, revising, and verifying standard behavior. If an agent ran autonomously for more than two minutes, I context-switched and excluded that waiting period. Therefore, reported times reflect active human effort rather than wall-clock time.
+**Quantitative (Time):** I tracked active developer time using [Activity Watch](https://activitywatch.net/). This included prompting, reviewing, revising, and verifying standard behavior. If an agent ran autonomously for more than two minutes, I context-switched and excluded that waiting period. Therefore, reported times reflect active human effort rather than wall-clock time.
 
 **Qualitative (Effort):** I evaluated the overall level of effort required, the level of autonomy the agents actually achieved, and how the overall workflow felt from a human software engineering perspective.
 
